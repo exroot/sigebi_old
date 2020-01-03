@@ -1,0 +1,21 @@
+td a { text-decoration: none !important; color: blue }
+th {
+    font-weight: bold !important;
+    background-color: #f0f0f0 !important;
+}
+
+.estado {
+    padding: 4px 4px 4px 4px;
+    color: white;
+    display: inline-block;
+    border-radius: 4px;
+    min-width: 75px;
+    text-align: center;
+}
+.prestado {
+    background-color: #be4444;
+}
+
+.disponible {
+    background-color: #44be81;
+}

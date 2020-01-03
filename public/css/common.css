@@ -1,0 +1,190 @@
+a, button {
+    outline: none !important;
+}
+
+.status-icon-sucess {
+    height: 15px;
+    width: 15px;
+    background-color: #15BD76;
+    border-radius: 5%;
+    padding: 5px 8px 5px 8px;
+    color: white;
+}
+
+.status-icon-danger {
+    height: 15px;
+    width: 15px;
+    background-color: #d45b5b;
+    border-radius: 5%;
+    padding: 5px 6px 5px 6px;
+    color: white;
+}
+
+.table-container {
+    border-radius: 2%;
+    box-shadow: 1px 1px 4px 1px #ccc;
+    background-color: #fdfdfd;
+    padding-bottom: 10px;
+}
+
+td a { 
+    display: block; 
+}
+
+/* laravel default shit */
+html, body {
+    background-color: #d1dee8 !important;
+    color: #636b6f;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 200;
+    height: 100vh;
+    margin: 0;
+}
+
+main {
+    background-color: inherit;
+}
+
+.full-height {
+    height: 100vh;
+}
+
+.flex-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.position-ref {
+    position: relative;
+}
+
+.top-right {
+    position: absolute;
+    right: 10px;
+    top: 18px;
+}
+
+.content {
+    text-align: center;
+}
+
+.title {
+    font-size: 84px;
+}
+
+.links > a {
+    color: #636b6f;
+    padding: 0 25px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.navbar {
+    background-color: #373737;
+}
+
+.nav-item-ordinary {
+    margin: 3px 3px 3px 0px;
+    padding: 0px 3px 0px 3px;
+    border-radius: 3px;
+}
+
+.nav-link-ordinary {
+    color: #2aa3b0 !important;
+    font-weight: bold;
+}
+
+.nav-item-ordinary:hover {
+    background-color: #5a5a5a;
+    color: white !important;
+    transition: .5s ease-in-out;
+    -moz-transition: .5s ease-in-out;
+    -webkit-transition: .5s;
+}
+
+.nav-link-ordinary:hover {
+    color: white !important;
+}
+
+.is-active{
+    background-color: #5a5a5a;
+    color: lavender !important;
+}
+
+.is-active a{
+    background-color: #5a5a5a;
+    color: lavender !important;
+}
+
+.navbar-brand {
+    font-family: 'Poppins';
+    font-size: 1.5em !important;
+    padding: 5px 15px 5px 15px;
+    border: 1px solid #2aa3b0;
+    background-color: inherit;
+    -webkit-border-radius: 20px;
+    -webkit-border-top-left-radius: 1px;
+    -webkit-border-bottom-right-radius: 1px;
+    -moz-border-radius: 20px;
+    -moz-border-radius-topleft: 1px;
+    -moz-border-radius-bottomright: 1px;
+    border-radius: 20px;
+    border-top-left-radius: 1px;
+    border-bottom-right-radius: 1px;
+    color: #2aa3b0 !important;
+}
+
+.navbar-brand:hover {
+    border: 1px solid #2aa3b0;
+    background-color: #2aa3b0;
+    color: white !important;
+    transition: .5s ease-in-out;
+    -moz-transition: .5s ease-in-out;
+    -webkit-transition: .5s;
+}
+
+.nav-item-special {
+    background-color: #2aa3b0;
+    margin: 3px 3px 3px 0px;
+    padding: 0px 3px 0px 3px;
+    border-radius: 3px;
+}
+
+.nav-link-special {
+    color: white !important;
+    font-weight: bold;
+}
+
+.dropdown-menu > a {
+    color: #73959e !important;
+    font-weight: bold;
+}
+
+.card-header {
+    background-color: #373737 !important;
+    color: #d1dee8;
+}
+
+.card-header h5 {
+    font-family: 'IBM Plex Sans';
+    padding-top: 0.8vh;
+}
+
+
+.btn-secondary {
+    background-color: #5f72bc !important;
+}
+
+.m-b-md {
+    margin-bottom: 30px;
+}
+
+/* Estilos Tablas */
+
+.MuiTableRow-root:hover { 
+    background: #dedede !important;
+  }
