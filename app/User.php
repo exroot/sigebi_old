@@ -34,7 +34,7 @@ class User extends Authenticatable
     }
 
     public function prestamos() {
-        return $this->hasMany('App\Prestamo');
+        return $this->hasMany('App\Prestamo', 'cedula');
     }
 
     public function esAdmin() {

@@ -39,7 +39,7 @@ class AdminController extends Controller
         return view('roles.crear');
     }
     public function crearCarrera() {
-        return view('carrera.crear');
+        return view('carreras.crear');
     }
 
     public function guardarUsuario(Request $request) {
@@ -47,6 +47,7 @@ class AdminController extends Controller
             'cedula' => 'required|integer',
             'nombres' => 'required|min:3',
             'apellidos' => 'required|min:3',
+            'password' => 'required|min:8|regex:/^(?=\S*[a-z])(?=\S*[!@#$&*])(?=\S*[A-Z])(?=\S*[\d])\S*$/',
             'rol_id' => 'required|integer',
             'carrera_id' => 'required|integer',
         ]);
@@ -54,6 +55,7 @@ class AdminController extends Controller
             'cedula' => $request->input('cedula'),
             'nombres' => $request->input('nombres'),
             'apellidos' => $request->input('apellidos'),
+            'password' => $request->input('password'),
             'rol_id' => $request->input('rol_id'),
             'carrera_id' => $request->input('carrera_id '),
         ]);
@@ -82,7 +84,7 @@ class AdminController extends Controller
     }
 
     public function mostrarUsuario($userId) {
-        $usuario = Usuario::findOrFail($userId);
+        $usuario = User::findOrFail($userId);
         $prestamos = count($usuario->prestamos()->get());
         return view('usuarios.usuario', [
             'usuario' => $usuario,
@@ -90,8 +92,8 @@ class AdminController extends Controller
         ]);
     }
     public function mostrarRol($rolId) {
-        $rol = Rol::findOrFail($rolId);
-        $roles = Rol::all()->get();
+        $rol = Role::findOrFail($rolId);
+        $roles = Role::all();
         return view('roles.rol', [
             'rol' => $rol,
             'roles' => $roles
@@ -99,7 +101,7 @@ class AdminController extends Controller
     }
     public function mostrarCarrera($carreraId) {
         $carrera = Carrera::findOrFail($carreraId);
-        $carreras = Carrera::all()->get();
+        $carreras = Carrera::all();
         return view('carreras.carrera', [
             'carrera' => $carrera,
             'carreras' => $carreras
@@ -107,13 +109,17 @@ class AdminController extends Controller
     }
 
     public function editarUsuario($userId) {
-        $usuario = Usuario::findOrFail($userId);
+        $usuario = User::findOrFail($userId);
+        $carreras = Carrera::all();
+        $roles = Role::all();
         return view('usuarios.editar', [
-            'usuario' => $usuario
+            'usuario' => $usuario,
+            'carreras' => $carreras,
+            'roles' => $roles
         ]);
     }
     public function editarRol($rolId) {
-        $rol = Rol::findOrFail($rolId);
+        $rol = Role::findOrFail($rolId);
         return view('roles.editar', [
             'rol' => $rol
         ]);
@@ -125,37 +131,36 @@ class AdminController extends Controller
         ]);
     }
 
+    public function actualizarRol(Request $request, $rolId) {
+        $rol = Role::findOrFail($rolId);
+        $request->validate([
+            'rol' => 'required|min:4'
+        ]);
+        $rol->update([
+            'rol' => $request->input('rol')
+        ]);
+        return redirect('/admin/roles/' . $rolId);
+    }
+
     public function actualizarUsuario(Request $request, $userId) {
-        $usuario = Usuario::findOrFail($userId);
+        $usuario = User::findOrFail($userId);
         $request->validate([
             'cedula' => 'required|integer|unique:usuarios,cedula,' . $userId,
             'nombres' => 'required|min:3',
             'apellidos' => 'required|min:3',
             'email' => 'required|email|unique:usuarios,email,' . $userId,
-            'rol_id' => 'required|integer',
-            'carrera_id' => 'required|integer',
+            'rol' => 'required|integer',
+            'carrera' => 'required|integer',
         ]);
-        $datosActualizados = collect([
+        $usuario->update([
             'cedula' => $request->input('cedula'),
             'nombres' => $request->input('nombres'),
             'apellidos' => $request->input('apellidos'),
             'email' => $request->input('email'),
-            'rol_id' => $request->input('rol_id'),
-            'carrera_id' => $request->input('carrera_id '),
+            'rol_id' => $request->input('rol'),
+            'carrera_id' => $request->input('carrera'),
         ]);
-        $usuario->update($datosActualizados);
         return redirect('/usuarios/' . $userId);
-    }
-
-    public function actualizarRol(Request $request, $rolId) {
-        $rol = Rol::findOrDia($rolId);
-        $request->validate([
-            'rol' => 'required|min:4'
-        ]);
-        $datosActualizados = collect([
-            'rol' => $request->input('rol')
-        ]);
-        return redirect('/roles/' . $rolId);
     }
 
     public function actualizarCarrera(Request $request, $carreraId) {
@@ -163,10 +168,10 @@ class AdminController extends Controller
         $request->validate([
             'carrera' => 'required|min:4'
         ]);
-        $datosActualizados = collect([
+        $carrera->update([
             'carrera' => $request->input('carrera')
         ]);
-        return redirect('/carreras/' . $carreraId);
+        return redirect('/admin/carreras/' . $carreraId);
     }
 
     // Biblioteca
