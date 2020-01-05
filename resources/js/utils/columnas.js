@@ -1,5 +1,126 @@
 import React from "react";
 
+export const columnasLibros = [
+    {
+        title: "ID",
+        field: "id",
+        type: "numeric"
+    },
+    {
+        title: "Titulo",
+        field: "titulo",
+        render: rowdata => (
+            <a href={"/libros/" + rowdata.id}>{rowdata.titulo}</a>
+        ),
+        type: "string"
+    },
+    {
+        title: "Autor",
+        field: "autor.nombre",
+        render: rowdata => (
+            <a href={"/autores/" + rowdata.autor.id}>{rowdata.autor.nombre}</a>
+        ),
+        type: "string"
+    },
+    {
+        title: "Disponibilidad",
+        field: "disponible",
+        render: rowdata => (
+            <span
+                className={
+                    "estado " + (rowdata.disponible ? "disponible" : "prestado")
+                }
+            >
+                {rowdata.disponible ? "Disponible" : "Prestado"}
+            </span>
+        ),
+        type: "string"
+    }
+];
+
+export const columnasPrestamosRealizados = [
+    {
+        title: "ID",
+        field: "id",
+        type: "numeric"
+    },
+    {
+        title: "Cedula",
+        field: "cedula",
+        type: "numeric",
+        render: rowdata => (
+            <a href={"/usuarios/" + rowdata.cedula}>{rowdata.cedula}</a>
+        )
+    },
+    {
+        title: "Copia",
+        field: "copia_id",
+        type: "numeric",
+        render: rowdata => (
+            <a href={"/copias/" + rowdata.copia_id}>{rowdata.copia_id}</a>
+        )
+    },
+    {
+        title: "Fecha de prestamo",
+        field: "fecha_de_prestamo",
+        type: "datetime"
+    },
+    {
+        title: "Fecha a retornar",
+        field: "fecha_a_retornar",
+        type: "datetime"
+    },
+    {
+        title: "Fecha de entrega",
+        field: "fecha_de_entrega",
+        type: "datetime"
+    }
+];
+
+export const columnasPrestamosActivos = [
+    {
+        title: "ID",
+        field: "id",
+        type: "numeric"
+    },
+    {
+        title: "Cedula",
+        field: "cedula",
+        type: "numeric",
+        render: rowdata => (
+            <a href={"/usuarios/" + rowdata.cedula}>{rowdata.cedula}</a>
+        )
+    },
+    {
+        title: "Copia",
+        field: "copia_id",
+        type: "numeric",
+        render: rowdata => (
+            <a href={"/copias/" + rowdata.copia_id}>{rowdata.copia_id}</a>
+        )
+    },
+    {
+        title: "Fecha de prestamo",
+        field: "fecha_de_prestamo",
+        type: "datetime"
+    },
+    {
+        title: "Fecha a retornar",
+        field: "fecha_a_retornar",
+        type: "datetime"
+    },
+    {
+        title: "Acciones",
+        type: "string",
+        searchable: false,
+        render: rowdata => (
+            <a href={`/prestamos/${rowdata.id}/retornar`}>
+                <button className="btn btn-primary btn-sm">Retornar</button>
+            </a>
+        )
+    }
+];
+
 export const columnasAutores = [
     {
         title: "ID",
@@ -50,12 +171,12 @@ export const columnasUsuarios = [
     },
     {
         title: "Carrera",
-        field: "carrera",
+        field: "carrera.nombre",
         type: "string"
     },
     {
         title: "Rol",
-        field: "rol",
+        field: "rol.nombre",
         type: "string",
         searchable: false
     }

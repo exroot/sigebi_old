@@ -4,7 +4,8 @@ import "./Tabla.css";
 import MaterialTable from "material-table";
 import { localization } from "../utils/traduccion";
 import { columnasCarreras } from "../utils/columnas";
-
+import { getCarreras } from '../services/usuarios';
+ 
 export const TablaCarreras = () => {
     const [carreras, setCarreras] = useState([]);
     const [loading, setLoading] = useState(true);

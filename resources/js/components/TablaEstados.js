@@ -14,7 +14,7 @@ export const TablaEstados = () => {
     useEffect(() => {
         const fetchEstados = async () => {
             try {
-                const estados = await getEstados;
+                const estados = await getEstados();
                 setEstados(estados);
             } catch (err) {
                 console.log(err);

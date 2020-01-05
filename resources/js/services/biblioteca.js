@@ -45,3 +45,21 @@ export const getEstados = async () => {
         console.log(err);
     }
 };
+
+export const getPrestamosRealizados = async () => {
+    try {
+        const prestamos = await axios.get(`${API_URI}/prestamos/realizados`);
+        return prestamos.data;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+export const getPrestamosActivos = async () => {
+    try {
+        const prestamos = await axios.get(`${API_URI}/prestamos/activos`);
+        return prestamos.data;
+    } catch (err) {
+        console.log(err);
+    }
+};

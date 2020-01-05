@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
-@section('title', 'SIGEBI | Copia | ' . $copia->id)
+@section('title', 'SIGEBI | Carrera | ' . $carrera->id)
 @section('content')
     <div class="container mt-4">
         <div class="d-flex" style="padding-top: 15px;">
-            <h2>Copia Numero: {{ $copia->id }}</h2>
+            <h2>{{ $carrera->carrera }}</h2>
             
             <div class="ml-auto">
-                <a href="/copias">
+                <a href="/admin/carreras">
                     <button class="btn btn-primary">Regresar</button>
                 </a>
-                <a href="{{'/copias/' . $copia->id . '/editar'}}">
+                <a href="{{'/admin/carreras/' . $carrera->id . '/editar'}}">
                     <button class="btn btn-primary">Editar</button>
                 </a>
             </div>
@@ -25,13 +25,7 @@
             <div class="col" style="border-left: 1px solid #f0f0f0; padding: 15px;">
                 <h4>Data:</h4>
                 <p>
-                    Libro: <a href="{{ '/libros/' . $copia->libro->id}}">{{ $copia->libro->titulo }}</a>
-                </p>
-                <p>
-                    Cota: {{ $copia->cota }}
-                </p>
-                <p>
-                    Estado: {{ $copia->estado->estado }}
+                    Usuarios: {{ count($carrera->usuarios) }} 
                 </p>
             </div>
         </div>

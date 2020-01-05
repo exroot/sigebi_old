@@ -15,7 +15,7 @@ export const TablaRoles = () => {
         const fetchRoles = async () => {
             try {
                 const roles = await getRoles();
-                setRoles(roles.data);
+                setRoles(roles);
             } catch (err) {
                 console.log(err);
                 setError(true);

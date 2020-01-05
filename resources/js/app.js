@@ -21,3 +21,5 @@ require("./components/TablaEstados");
 require("./components/TablaUsuarios");
 require("./components/TablaCarreras");
 require("./components/TablaRoles");
+require("./components/TablaPrestamosActivos");
+require("./components/TablaPrestamosRealizados");
