@@ -5,18 +5,11 @@ import MaterialTable from "material-table";
 import { localization } from "../utils/traduccion";
 import { columnasAutores } from "../utils/columnas";
 import { getAutores } from "../services/biblioteca";
-import { FormAutor } from "./forms";
 
 export const TablaAutores = () => {
     const [autores, setAutores] = useState([]);
-    const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
-
-    const handleShow = () => {
-        if (show) setShow(false);
-        else setShow(true);
-    };
 
     useEffect(() => {
         const fetchAutores = async () => {
@@ -42,16 +35,7 @@ export const TablaAutores = () => {
                 data={autores}
                 title="Autores"
                 isLoading={loading}
-                actions={[
-                    {
-                        icon: "add",
-                        tooltip: "Agregar autor",
-                        isFreeAction: true,
-                        onClick: event => setShow(true)
-                    }
-                ]}
             />
-            <FormAutor show={show} handleShow={handleShow} />
         </div>
     );
 };
