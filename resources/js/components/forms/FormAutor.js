@@ -1,22 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button, Modal, Spinner } from "react-bootstrap";
-import { Formik, ErrorMessage } from "formik";
+import { Formik } from "formik";
 import { autorSchema } from "../../utils/formSchemas";
+import { postAutores } from "../../services/biblioteca";
+import { ErrorServer, ErrorInput } from "../errors-handlers";
 
 export const FormAutor = ({ show, handleShow }) => {
-    const [isLoading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [serverError, setServerError] = useState({});
 
     const handleSubmit = async values => {
         try {
             setLoading(true);
+            const response = await postAutores(values);
+            if (response.status === 200) {
+                window.location.reload();
+            }
         } catch (err) {
-            setError(err);
+            console.log(err);
+            setServerError(err);
         } finally {
             setLoading(false);
-            console.log(values.nombre);
-            alert(JSON.stringify(values));
         }
     };
+
+    useEffect(() => {
+        if (!show) {
+            setServerError({});
+        }
+    }, [show]);
 
     return (
         <React.Fragment>
@@ -44,6 +56,12 @@ export const FormAutor = ({ show, handleShow }) => {
                                     <Modal.Title>Nuevo autor</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
+                                    {serverError.data && (
+                                        <ErrorServer
+                                            status={serverError.status}
+                                            data={serverError.data}
+                                        />
+                                    )}
                                     <React.Fragment>
                                         <Form.Group controlId="formNombre">
                                             <Form.Label>Nombre:</Form.Label>
@@ -59,7 +77,11 @@ export const FormAutor = ({ show, handleShow }) => {
                                                         : null
                                                 }
                                             />
-                                            <ErrorMessage name="nombre" />
+                                            {errors.nombre && (
+                                                <ErrorInput
+                                                    data={errors.nombre}
+                                                />
+                                            )}
                                         </Form.Group>
                                     </React.Fragment>
                                 </Modal.Body>
@@ -67,9 +89,9 @@ export const FormAutor = ({ show, handleShow }) => {
                                     <Button
                                         onClick={handleSubmit}
                                         variant="primary"
-                                        disabled={isLoading}
+                                        disabled={loading}
                                     >
-                                        {isLoading ? (
+                                        {loading ? (
                                             <React.Fragment>
                                                 <Spinner
                                                     as="span"

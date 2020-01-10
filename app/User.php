@@ -29,6 +29,7 @@ class User extends Authenticatable
     public function rol() {
         return $this->belongsTo('App\Role');
     }
+    
     public function carrera() {
         return $this->belongsTo('App\Carrera');
     }
