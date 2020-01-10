@@ -6,6 +6,7 @@ use App\Libro;
 use App\Autor;
 use App\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LibroController extends Controller
 {

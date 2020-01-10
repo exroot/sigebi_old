@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Autor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AutorController extends Controller
 {
@@ -43,7 +44,7 @@ class AutorController extends Controller
     public function actualizar(Request $request, $autorId) {
         $autor = Autor::findOrFail($autorId);
         $request->validate([
-            'nombre' => 'required|min:3'
+            'nombre' => 'required|min:4'
         ]);
         $autor->update([
             'nombre' => $request->input('nombre')
@@ -64,5 +65,16 @@ class AutorController extends Controller
             ]);
         });
         return response()->json($autoresData);
+    }
+
+    public function postAutores(Request $request) {
+        $request->validate([
+            'nombre' => 'required|min:3'
+        ]);
+        $nuevoAutor = new Autor([
+            'nombre' => $request->input('nombre')
+        ]);
+        $nuevoAutor->save();
+        return response('Sucess', 200);
     }
 }

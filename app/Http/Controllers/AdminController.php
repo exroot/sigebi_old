@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Prestamo;
 use App\Libro;
@@ -261,5 +263,28 @@ class AdminController extends Controller
     public function getCarreras() {
         $carreras = Carrera::all();
         return response()->json($carreras);
+    }
+
+    public function postUsuario(Request $request) {
+        $request->validate([
+            'cedula' => 'required|integer|unique:usuarios,cedula',
+            'nombres' => 'required|min:3|max:100',
+            'apellidos' => 'required|min:3|max:100',
+            'email' => 'required|email|unique:usuarios,email,',
+            'password' => 'required|min:8',
+            'rol' => 'required|integer|min:1',
+            'carrera' => 'required|integer|min:1',
+        ]);
+        $newUser = new User([
+            'cedula' => $request->input('cedula'),
+            'nombres' => $request->input('nombres'),
+            'apellidos' => $request->input('apellidos'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+            'rol_id' => $request->input('rol'),
+            'carrera_id' => $request->input('carrera')
+        ]);
+        $newUser->save();
+        return response('Success', 200);
     }
 }

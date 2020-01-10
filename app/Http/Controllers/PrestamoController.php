@@ -58,21 +58,13 @@ class PrestamoController extends Controller
         return response()->json($prestamos);
     }
     public function getPrestamosRealizados() {
-        $prestamosData = array();
-        $prestamosRealizados = Prestamo::all()->where('fecha_de_entrega', '!=', null);
-        foreach ($prestamosRealizados as $prestamo) {
-            array_push($prestamosData, $prestamo);
-        }
-        return response()->json($prestamosData);
+        $prestamosRealizados = Prestamo::all()->where('fecha_de_entrega', '!=', null)->values();
+        return response()->json($prestamosRealizados);
     }
 
     public function getPrestamosActivos() {
-        $prestamosData = array();
-        $prestamosActivos = Prestamo::all()->where('fecha_de_entrega', '==', null);
-        foreach ($prestamosActivos as $prestamo) {
-            array_push($prestamosData, $prestamo);
-        }
-        return response()->json($prestamosData);
+        $prestamosActivos = Prestamo::all()->where('fecha_de_entrega', '==', null)->values();
+        return response()->json($prestamosActivos);
     }
 
     public function retornar($prestamoId) {
