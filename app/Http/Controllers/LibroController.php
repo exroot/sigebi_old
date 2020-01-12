@@ -104,4 +104,21 @@ class LibroController extends Controller
         });
         return response()->json($librosConAutores);
     }
+
+    public function postLibros(Request $request) {
+        $request->validate([
+            'titulo' => 'required|string|min:3|max:100',
+            'descripcion' => 'string|min:3|max:100',
+            'categoria' => 'required|integer|min:1',
+            'autor' => 'required|integer|min:1'
+        ]);
+        $nuevoLibro = new Libro([
+            'titulo' => $request->input('titulo'),
+            'descripcion' => $request->input('descripcion'),
+            'categoria_id' => $request->input('categoria'),
+            'autor_id' => $request->input('autor')
+        ]);
+        $nuevoLibro->save();
+        return response('Sucess', 200);
+    }
 }

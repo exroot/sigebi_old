@@ -5,11 +5,18 @@ import MaterialTable from "material-table";
 import { columnasLibros } from "../utils/columnas";
 import { getLibros } from "../services/biblioteca";
 import { localizationLibro } from "../utils/traduccion";
+import { FormLibro } from "./forms";
 
 export const TablaLibros = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [show, setShow] = useState(false);
+
+    const handleShow = () => {
+        if (show) setShow(false);
+        else setShow(true);
+    };
 
     useEffect(() => {
         const fetchLibros = async () => {
@@ -35,7 +42,16 @@ export const TablaLibros = () => {
                 data={data}
                 title="Libros"
                 isLoading={loading}
+                actions={[
+                    {
+                        icon: "add",
+                        tooltip: "Agregar autor",
+                        isFreeAction: true,
+                        onClick: event => setShow(true)
+                    }
+                ]}
             />
+            <FormLibro show={show} handleShow={handleShow} />
         </div>
     );
 };

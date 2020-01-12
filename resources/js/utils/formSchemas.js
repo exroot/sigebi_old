@@ -86,7 +86,6 @@ export const libroSchema = yup.object().shape({
         .max(100, "El titulo del libro es muy largo."),
     descripcion: yup
         .string()
-        .required("Por favor ingrese el titulo de la descripcion.")
         .min(3, "La descripcion del libro es muy corto.")
         .max(100, "La descripcion del libro es muy largo."),
     categoria: yup

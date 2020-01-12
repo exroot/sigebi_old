@@ -71,7 +71,7 @@ export const getAutores = async () => {
     }
 };
 
-export const postAutor = async autorData => {
+export const postAutores = async autorData => {
     try {
         const response = await axios.post(`${API_URI}/autores`, autorData);
         return response;
@@ -167,5 +167,22 @@ export const getPrestamosActivos = async () => {
         return prestamos.data;
     } catch (err) {
         console.log(err);
+    }
+};
+
+export const post = async (endpoint, data) => {
+    try {
+        const response = await axios.post(API_URI + endpoint, data);
+        return response;
+    } catch (err) {
+        if (!err.response) {
+            const servidorCaido = {
+                status: 500,
+                headers: "",
+                data: "No hay respuesta del servidor."
+            };
+            return Promise.reject(servidorCaido);
+        }
+        return Promise.reject(logger(err));
     }
 };
