@@ -26,7 +26,7 @@ class LibroController extends Controller
     public function guardar(Request $request) {
         $request->validate([
             'titulo' => 'required|min:3|max:255',
-            'descripcion' => 'required|min:3|max:255',
+            'descripcion' => 'string|min:3|max:255',
             'categoria' => 'required|integer',
             'autor' => 'required|integer',
         ]);
@@ -69,7 +69,7 @@ class LibroController extends Controller
         $libro = Libro::findOrFail($libroId);
         $request->validate([
             'titulo' => 'required|min:3|max:255',
-            'descripcion' => 'required|min:3|max:255',
+            'descripcion' => 'string|min:3|max:255',
             'categoria' => 'required|integer',
             'autor' => 'required|integer',
         ]);
@@ -82,6 +82,7 @@ class LibroController extends Controller
         return redirect('/libros/' . $libroId);
     }
     
+    // RECURSOS PARA API
     public function getLibros() {
         $libros = Libro::all();
         $librosConAutores = $libros->map(function($libro) {

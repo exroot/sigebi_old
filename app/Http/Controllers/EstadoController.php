@@ -55,4 +55,15 @@ class EstadoController extends Controller
         $estados = Estado::all();
         return response()->json($estados);
     }
+
+    public function postEstados(Request $request) {
+        $request->validate([
+            'estado' => 'required|string|min:4'
+        ]);
+        $nuevoEstado = new Estado([
+            'estado' => $request->input('estado')
+        ]);
+        $nuevoEstado->save();
+        return response('Success', 200);
+    }
 }

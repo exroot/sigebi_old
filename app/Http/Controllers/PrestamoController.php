@@ -34,12 +34,12 @@ class PrestamoController extends Controller
     public function guardar(Request $request) {
         $request->validate([
             'copia' => 'required|integer',
-            'cedula_usuario' => 'required|integer'
+            'cedula' => 'required|integer|min:999999'
         ]);
         $copiaId = $request->input('copia');
         $copia = Copia::findOrFail($copiaId);
         $prestamo = new Prestamo([
-            'cedula' => $request->input('cedula_usuario'),
+            'cedula' => $request->input('cedula'),
             'copia_id' => $request->input('copia'),
             'observacion' => '',
             'fecha_de_prestamo' => Carbon::now(),
@@ -57,6 +57,28 @@ class PrestamoController extends Controller
         $prestamos = Prestamo::all();
         return response()->json($prestamos);
     }
+
+    public function postPrestamo(Request $request) {
+        $request->validate([
+            'copia' => 'required|integer|min:1',
+            'cedula' => 'required|integer|min:999999'
+        ]);
+        $copiaId = $request->input('copia');
+        $copia = Copia::findOrFail($copiaId);
+        $nuevoPrestamo = new Prestamo([
+            'copia_id' => $request->input('copia'),
+            'cedula' => $request->input('cedula'),
+            'observacion' => '',
+            'fecha_de_prestamo' => Carbon::now(),
+            'fecha_a_retornar' => Carbon::now()->addHours(8),
+        ]);
+        $nuevoPrestamo->save();
+        $copia->update([
+            'estado_id' => 2
+        ]);
+        return response('Success', 200);
+    }
+
     public function getPrestamosRealizados() {
         $prestamosRealizados = Prestamo::all()->where('fecha_de_entrega', '!=', null)->values();
         return response()->json($prestamosRealizados);
