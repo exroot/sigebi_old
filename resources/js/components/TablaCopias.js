@@ -22,7 +22,10 @@ export const TablaCopias = () => {
         const fetchCopias = async () => {
             try {
                 const copias = await getCopias();
-                setCopias(copias);
+                setCopias(prevCopias => {
+                    prevCopias = copias;
+                    return prevCopias;
+                });
             } catch (err) {
                 console.log(err);
                 setError(true);
@@ -42,12 +45,20 @@ export const TablaCopias = () => {
                 data={copias}
                 title="Copias"
                 isLoading={loading}
+                options={{
+                    selection: true
+                }}
                 actions={[
                     {
-                        icon: "add",
+                        icon: "add_box",
                         tooltip: "Agregar copia",
                         isFreeAction: true,
                         onClick: event => setShow(true)
+                    },
+                    {
+                        tooltip: 'Eliminar copias seleccionadas',
+                        icon: 'delete',
+                        onClick: (evt, data) => alert('Quieres eliminar ' + data.length + ' rows')
                     }
                 ]}
             />

@@ -1,4 +1,7 @@
 export const localization = {
+    body: {
+        emptyDataSourceMessage: "No hay registros que mostrar"
+    },
     pagination: {
         labelDisplayedRows: "{from}-{to} de {count}",
         labelRowsPerPage: "Filas por página",
@@ -15,6 +18,9 @@ export const localization = {
 };
 
 export const localizationLibro = {
+    body: {
+        emptyDataSourceMessage: "No hay registros que mostrar"
+    },
     pagination: {
         labelDisplayedRows: "{from}-{to} de {count}",
         labelRowsPerPage: "Filas por página",

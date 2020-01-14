@@ -44,7 +44,7 @@ export const TablaRoles = () => {
                 isLoading={loading}
                 actions={[
                     {
-                        icon: "add",
+                        icon: "add_box",
                         tooltip: "Agregar rol",
                         isFreeAction: true,
                         onClick: event => setShow(true)

@@ -2,14 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Form, Button, Modal, Spinner } from "react-bootstrap";
 import { Formik } from "formik";
 import { userSchema } from "../../utils/formSchemas";
-import { post, getRoles, getCarreras } from "../../services/usuarios";
+import { post } from "../../services/usuarios";
 import { ErrorServer, ErrorInput } from "../errors-handlers";
 
-export const FormUser = ({ show, handleShow }) => {
+export const FormUser = ({ show, handleShow, roles, carreras }) => {
     const [loading, setLoading] = useState(false);
-    const [loadingForm, setLoadingForm] = useState(false);
-    const [roles, setRoles] = useState([]);
-    const [carreras, setCarreras] = useState([]);
     const [serverError, setServerError] = useState({});
 
     const handleSubmit = async data => {
@@ -32,24 +29,6 @@ export const FormUser = ({ show, handleShow }) => {
             setServerError({});
         }
     }, [show]);
-
-    useEffect(() => {
-        const getResources = async () => {
-            try {
-                setLoadingForm(true);
-                const rolesData = await getRoles();
-                const carrerasData = await getCarreras();
-                setRoles(rolesData);
-                setCarreras(carrerasData);
-            } catch (err) {
-                console.error(err);
-                setServerError(err);
-            } finally {
-                setLoadingForm(false);
-            }
-        };
-        getResources();
-    }, []);
 
     return (
         <React.Fragment>
@@ -82,17 +61,8 @@ export const FormUser = ({ show, handleShow }) => {
                         <Form>
                             <Modal.Dialog scrollable size="lg">
                                 <Modal.Header closeButton>
-                                    <Modal.Title>Nueva Copia</Modal.Title>
+                                    <Modal.Title>Nuevo Usuario</Modal.Title>
                                 </Modal.Header>
-                                {loadingForm ? (
-                                    <Spinner
-                                        as="span"
-                                        animation="border"
-                                        size="lg"
-                                        role="status"
-                                        aria-hidden="true"
-                                    />
-                                ) : (
                                     <Modal.Body>
                                         {serverError.data && (
                                             <ErrorServer
@@ -246,7 +216,7 @@ export const FormUser = ({ show, handleShow }) => {
                                                             "-- Selecciona el rol del usuario --"
                                                         }
                                                     </option>
-                                                    {roles.map(libro => {
+                                                    {roles.map(rol => {
                                                         return (
                                                             <option
                                                                 value={rol.id}
@@ -314,7 +284,6 @@ export const FormUser = ({ show, handleShow }) => {
                                             </Form.Group>
                                         </React.Fragment>
                                     </Modal.Body>
-                                )}
                                 <Modal.Footer>
                                     <Button
                                         onClick={handleSubmit}

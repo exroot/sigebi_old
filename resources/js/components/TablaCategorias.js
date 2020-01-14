@@ -44,7 +44,7 @@ export const TablaCategorias = () => {
                 isLoading={loading}
                 actions={[
                     {
-                        icon: "add",
+                        icon: "add_box",
                         tooltip: "Agregar categoría",
                         isFreeAction: true,
                         onClick: event => setShow(true)

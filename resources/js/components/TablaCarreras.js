@@ -44,7 +44,7 @@ export const TablaCarreras = () => {
                 isLoading={loading}
                 actions={[
                     {
-                        icon: "add",
+                        icon: "add_box",
                         tooltip: "Agregar carrera",
                         isFreeAction: true,
                         onClick: event => setShow(true)

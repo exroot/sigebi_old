@@ -51,7 +51,7 @@ const TablaPrestamosActivos = () => {
                 isLoading={loading}
                 actions={[
                     {
-                        icon: "add",
+                        icon: "add_box",
                         tooltip: "Agregar préstamo",
                         isFreeAction: true,
                         onClick: event => setShow(true)

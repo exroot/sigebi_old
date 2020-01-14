@@ -44,7 +44,7 @@ export const TablaAutores = () => {
                 isLoading={loading}
                 actions={[
                     {
-                        icon: "add",
+                        icon: "add_box",
                         tooltip: "Agregar autor",
                         isFreeAction: true,
                         onClick: event => setShow(true)

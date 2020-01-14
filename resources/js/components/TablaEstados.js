@@ -44,7 +44,7 @@ export const TablaEstados = () => {
                 isLoading={loading}
                 actions={[
                     {
-                        icon: "add",
+                        icon: "add_box",
                         tooltip: "Agregar estado",
                         isFreeAction: true,
                         onClick: event => setShow(true)

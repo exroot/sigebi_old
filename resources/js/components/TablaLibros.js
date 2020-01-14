@@ -44,7 +44,7 @@ export const TablaLibros = () => {
                 isLoading={loading}
                 actions={[
                     {
-                        icon: "add",
+                        icon: "add_box",
                         tooltip: "Agregar libro",
                         isFreeAction: true,
                         onClick: event => setShow(true)
