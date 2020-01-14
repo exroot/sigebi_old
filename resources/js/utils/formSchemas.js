@@ -40,7 +40,7 @@ export const carreraSchema = yup.object().shape({
         .max(100, "El nombre de la carrera es muy largo.")
 });
 
-export const userSchema = yup.object().shape({
+export const userSchema = yup.object().shape({ 
     cedula: yup
         .number()
         .integer()
@@ -57,24 +57,23 @@ export const userSchema = yup.object().shape({
         .required("Por favor ingrese el apellido del usuario.")
         .min(3, "El apellido del usuario debe tener al menos 3 caracteres.")
         .max(100, "El apellido del usuario es muy largo."),
-    email: yup.string().email(),
+    email: yup
+        .string()
+        .email()
+        .required("Por favor ingrese el email del usuario."),
     password: yup
         .string()
         .required("Por favor ingrese una contraseña.")
         .min(8, "Contraseña muy corta, debe tener al menos 8 caracteres."),
-    passwordConfirmation: yup
-        .string()
-        .required()
-        .oneOf([yup.ref("password"), null], "La contraseñas no coinciden."),
     rol: yup
         .number()
         .integer()
-        .required()
+        .required("Por favor ingrese el rol del usuario.")
         .min(1, "Rol no existe"),
     carrera: yup
         .number()
         .integer()
-        .required()
+        .required("Por favor ingrese la carrera del usuario.")
         .min(1, "Carrera no existe.")
 });
 
