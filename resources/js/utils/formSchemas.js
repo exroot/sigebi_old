@@ -12,7 +12,7 @@ export const estadoSchema = yup.object().shape({
     estado: yup
         .string()
         .required("Por favor ingrese el estado.")
-        .min(3, "El estado debe tener al menos 4 caracteres.")
+        .min(4, "El estado debe tener al menos 4 caracteres.")
         .max(100, "El nombre del estado es muy largo.")
 });
 
@@ -20,7 +20,7 @@ export const categoriaSchema = yup.object().shape({
     categoria: yup
         .string()
         .required("Por favor ingrese la categoria.")
-        .min(3, "La categoria debe tener al menos 4 caracteres.")
+        .min(4, "La categoria debe tener al menos 4 caracteres.")
         .max(100, "El nombre de la categoria es muy largo.")
 });
 
@@ -28,7 +28,7 @@ export const rolSchema = yup.object().shape({
     rol: yup
         .string()
         .required("Por favor ingrese el rol.")
-        .min(3, "El rol debe tener al menos 4 caracteres.")
+        .min(4, "El rol debe tener al menos 4 caracteres.")
         .max(100, "El nombre de la categoria es muy largo.")
 });
 
@@ -36,7 +36,7 @@ export const carreraSchema = yup.object().shape({
     carrera: yup
         .string()
         .required("Por favor ingrese la carrera.")
-        .min(3, "La carrera debe tener al menos 4 caracteres.")
+        .min(4, "La carrera debe tener al menos 4 caracteres.")
         .max(100, "El nombre de la carrera es muy largo.")
 });
 
@@ -50,12 +50,12 @@ export const userSchema = yup.object().shape({
     nombres: yup
         .string()
         .required("Por favor ingrese el nombre del usuario.")
-        .min(3, "El nombre del usuario debe tener al menos 4 caracteres.")
+        .min(3, "El nombre del usuario debe tener al menos 3 caracteres.")
         .max(100, "El nombre del usuario es muy largo."),
     apellidos: yup
         .string()
         .required("Por favor ingrese el apellido del usuario.")
-        .min(3, "El apellido del usuario debe tener al menos 4 caracteres.")
+        .min(3, "El apellido del usuario debe tener al menos 3 caracteres.")
         .max(100, "El apellido del usuario es muy largo."),
     email: yup.string().email(),
     password: yup
@@ -124,7 +124,7 @@ export const prestamoSchema = yup.object().shape({
         .integer()
         .required("Por favor ingrese la copia.")
         .min(1, "Copia no existe."),
-    cedula_usuario: yup
+    cedula: yup
         .number()
         .integer()
         .required("Por favor ingrese la cedula del usuario.")

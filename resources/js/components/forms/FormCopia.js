@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Modal, Spinner } from "react-bootstrap";
 import { Formik } from "formik";
-import { libroSchema } from "../../utils/formSchemas";
-import { post, getAutores, getCategorias } from "../../services/biblioteca";
+import { copiaSchema } from "../../utils/formSchemas";
+import { post, getLibros, getEstados } from "../../services/biblioteca";
 import { ErrorServer, ErrorInput } from "../errors-handlers";
 
-export const FormLibro = ({ show, handleShow }) => {
+export const FormCopia = ({ show, handleShow }) => {
     const [loading, setLoading] = useState(false);
-    const [categorias, setCategorias] = useState([]);
-    const [autores, setAutores] = useState([]);
+    const [libros, setLibros] = useState([]);
+    const [estados, setEstados] = useState([]);
     const [loadingForm, setLoadingForm] = useState(false);
     const [serverError, setServerError] = useState({});
 
     const handleSubmit = async data => {
         try {
             setLoading(true);
-            const response = await post("/libros", data);
+            const response = await post("/copias", data);
             if (response.status === 200) {
                 window.location.reload();
             }
         } catch (err) {
-            console.error(err);
+            console.log(err);
             setServerError(err);
         } finally {
             setLoading(false);
@@ -37,10 +37,10 @@ export const FormLibro = ({ show, handleShow }) => {
         const getResources = async () => {
             try {
                 setLoadingForm(true);
-                const autoresData = await getAutores();
-                const categoriasData = await getCategorias();
-                setAutores(autoresData);
-                setCategorias(categoriasData);
+                const librosData = await getLibros();
+                const estadosData = await getEstados();
+                setLibros(librosData);
+                setEstados(estadosData);
             } catch (err) {
                 console.error(err);
                 setServerError(err);
@@ -61,12 +61,11 @@ export const FormLibro = ({ show, handleShow }) => {
             >
                 <Formik
                     initialValues={{
-                        titulo: "",
-                        descripcion: "",
-                        categoria: undefined,
-                        autor: undefined
+                        cota: "",
+                        libro: undefined,
+                        estado: undefined
                     }}
-                    validationSchema={libroSchema}
+                    validationSchema={copiaSchema}
                     onSubmit={values => handleSubmit(values)}
                 >
                     {({
@@ -79,7 +78,7 @@ export const FormLibro = ({ show, handleShow }) => {
                         <Form>
                             <Modal.Dialog scrollable size="lg">
                                 <Modal.Header closeButton>
-                                    <Modal.Title>Nuevo Libro</Modal.Title>
+                                    <Modal.Title>Nueva Copia</Modal.Title>
                                 </Modal.Header>
                                 {loadingForm ? (
                                     <Spinner
@@ -88,9 +87,6 @@ export const FormLibro = ({ show, handleShow }) => {
                                         size="lg"
                                         role="status"
                                         aria-hidden="true"
-                                        style={{
-                                            marginRight: "5px"
-                                        }}
                                     />
                                 ) : (
                                     <Modal.Body>
@@ -102,108 +98,38 @@ export const FormLibro = ({ show, handleShow }) => {
                                         )}
 
                                         <React.Fragment>
-                                            <Form.Group controlId="formTitulo">
-                                                <Form.Label>Título:</Form.Label>
+                                            <Form.Group controlId="formCota">
+                                                <Form.Label>Cota:</Form.Label>
                                                 <Form.Control
                                                     type="text"
-                                                    name="titulo"
+                                                    name="cota"
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
                                                     className={
-                                                        touched.titulo &&
-                                                        errors.titulo
+                                                        touched.cota &&
+                                                        errors.cota
                                                             ? "error"
                                                             : null
                                                     }
                                                 />
-                                                {errors.titulo && (
+                                                {errors.cota && (
                                                     <ErrorInput
-                                                        data={errors.titulo}
-                                                    />
-                                                )}
-                                            </Form.Group>
-                                        </React.Fragment>
-                                        <React.Fragment>
-                                            <Form.Group controlId="formDescripcion">
-                                                <Form.Label>
-                                                    Descripción:
-                                                </Form.Label>
-                                                <Form.Control
-                                                    type="text"
-                                                    name="descripcion"
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
-                                                    className={
-                                                        touched.descripcion &&
-                                                        errors.descripcion
-                                                            ? "error"
-                                                            : null
-                                                    }
-                                                />
-                                                {errors.descripcion && (
-                                                    <ErrorInput
-                                                        data={
-                                                            errors.descripcion
-                                                        }
-                                                    />
-                                                )}
-                                            </Form.Group>
-                                        </React.Fragment>
-                                        <React.Fragment>
-                                            <Form.Group controlId="formAutor">
-                                                <Form.Label>Autor:</Form.Label>
-                                                <Form.Control
-                                                    as="select"
-                                                    name="autor"
-                                                    onChange={handleChange}
-                                                    className={
-                                                        touched.autor &&
-                                                        errors.autor
-                                                            ? "error"
-                                                            : null
-                                                    }
-                                                >
-                                                    <option
-                                                        hidden
-                                                        disabled
-                                                        selected
-                                                        value
-                                                    >
-                                                        {
-                                                            "-- Selecciona un autor --"
-                                                        }
-                                                    </option>
-                                                    {autores.map(autor => {
-                                                        return (
-                                                            <option
-                                                                value={autor.id}
-                                                                key={autor.id}
-                                                            >
-                                                                {autor.nombre}
-                                                            </option>
-                                                        );
-                                                    })}
-                                                </Form.Control>
-                                                {errors.autor && (
-                                                    <ErrorInput
-                                                        data={errors.autor}
+                                                        data={errors.cota}
                                                     />
                                                 )}
                                             </Form.Group>
                                         </React.Fragment>
 
                                         <React.Fragment>
-                                            <Form.Group controlId="formCategoria">
-                                                <Form.Label>
-                                                    Categoría:
-                                                </Form.Label>
+                                            <Form.Group controlId="formLibro">
+                                                <Form.Label>Libro:</Form.Label>
                                                 <Form.Control
                                                     as="select"
-                                                    name="categoria"
+                                                    name="libro"
                                                     onChange={handleChange}
                                                     className={
-                                                        touched.categoria &&
-                                                        errors.categoria
+                                                        touched.libro &&
+                                                        errors.libro
                                                             ? "error"
                                                             : null
                                                     }
@@ -215,31 +141,68 @@ export const FormLibro = ({ show, handleShow }) => {
                                                         value
                                                     >
                                                         {
-                                                            "-- Selecciona una categoría --"
+                                                            "-- Selecciona un libro --"
                                                         }
                                                     </option>
-                                                    {categorias.map(
-                                                        categoria => {
-                                                            return (
-                                                                <option
-                                                                    value={
-                                                                        categoria.id
-                                                                    }
-                                                                    key={
-                                                                        categoria.id
-                                                                    }
-                                                                >
-                                                                    {
-                                                                        categoria.categoria
-                                                                    }
-                                                                </option>
-                                                            );
-                                                        }
-                                                    )}
+                                                    {libros.map(libro => {
+                                                        return (
+                                                            <option
+                                                                value={libro.id}
+                                                                key={libro.id}
+                                                            >
+                                                                {libro.titulo}
+                                                            </option>
+                                                        );
+                                                    })}
                                                 </Form.Control>
-                                                {errors.categoria && (
+                                                {errors.libro && (
                                                     <ErrorInput
-                                                        data={errors.categoria}
+                                                        data={errors.libro}
+                                                    />
+                                                )}
+                                            </Form.Group>
+                                        </React.Fragment>
+
+                                        <React.Fragment>
+                                            <Form.Group controlId="formEstado">
+                                                <Form.Label>Estado:</Form.Label>
+                                                <Form.Control
+                                                    as="select"
+                                                    name="estado"
+                                                    onChange={handleChange}
+                                                    className={
+                                                        touched.estado &&
+                                                        errors.estado
+                                                            ? "error"
+                                                            : null
+                                                    }
+                                                >
+                                                    <option
+                                                        hidden
+                                                        disabled
+                                                        selected
+                                                        value
+                                                    >
+                                                        {
+                                                            "-- Selecciona el estado de la copia --"
+                                                        }
+                                                    </option>
+                                                    {estados.map(estado => {
+                                                        return (
+                                                            <option
+                                                                value={
+                                                                    estado.id
+                                                                }
+                                                                key={estado.id}
+                                                            >
+                                                                {estado.estado}
+                                                            </option>
+                                                        );
+                                                    })}
+                                                </Form.Control>
+                                                {errors.estado && (
+                                                    <ErrorInput
+                                                        data={errors.estado}
                                                     />
                                                 )}
                                             </Form.Group>

@@ -15,7 +15,10 @@ const TablaPrestamosRealizados = () => {
             try {
                 const prestamos = await getPrestamosRealizados();
                 console.log(prestamos);
-                setPrestamos(prestamos);
+                setPrestamos((prevPrestamos) => {
+                    prevPrestamos = prestamos;
+                    return prevPrestamos;
+                });
             } catch (err) {
                 setError(err);
                 console.log(err);

@@ -5,11 +5,18 @@ import MaterialTable from "material-table";
 import { columnasUsuarios } from "../utils/columnas";
 import { getUsuarios } from "../services/usuarios";
 import { localization } from "../utils/traduccion";
+import { FormUser } from "./forms";
 
 export const TablaUsuarios = () => {
     const [usuarios, setUsuarios] = useState([]);
+    const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+
+    const handleShow = () => {
+        if (show) setShow(false);
+        else setShow(true);
+    };
 
     useEffect(() => {
         const fetchUsuarios = async () => {
@@ -35,7 +42,16 @@ export const TablaUsuarios = () => {
                 data={usuarios}
                 title="Usuarios"
                 isLoading={loading}
+                actions={[
+                    {
+                        icon: "add",
+                        tooltip: "Agregar usuario",
+                        isFreeAction: true,
+                        onClick: event => setShow(true)
+                    }
+                ]}
             />
+            <FormUser show={show} handleShow={handleShow} />
         </div>
     );
 };

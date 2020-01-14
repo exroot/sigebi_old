@@ -79,6 +79,17 @@ export const getUsuarios = async () => {
     }
 };
 
+export const getCedulas = async () => {
+    try {
+        const usuarios = await axios.get(`${API_URI}/usuarios`);
+        const cedulas = usuarios.data.map(usuario => usuario.cedula);
+        return cedulas;
+    } catch (err) {
+        console.error(err);
+        return Promise.reject(logger(err));
+    }
+};
+
 export const getRoles = async () => {
     try {
         const roles = await axios.get(`${API_URI}/roles`);

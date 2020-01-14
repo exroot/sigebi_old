@@ -45,7 +45,7 @@ export const TablaLibros = () => {
                 actions={[
                     {
                         icon: "add",
-                        tooltip: "Agregar autor",
+                        tooltip: "Agregar libro",
                         isFreeAction: true,
                         onClick: event => setShow(true)
                     }

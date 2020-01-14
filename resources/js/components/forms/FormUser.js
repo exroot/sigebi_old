@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Modal, Spinner } from "react-bootstrap";
 import { Formik } from "formik";
-import { libroSchema } from "../../utils/formSchemas";
-import { post, getAutores, getCategorias } from "../../services/biblioteca";
+import { userSchema } from "../../utils/formSchemas";
+import { post, getRoles, getCarreras } from "../../services/usuarios";
 import { ErrorServer, ErrorInput } from "../errors-handlers";
 
-export const FormLibro = ({ show, handleShow }) => {
+export const FormUser = ({ show, handleShow }) => {
     const [loading, setLoading] = useState(false);
-    const [categorias, setCategorias] = useState([]);
-    const [autores, setAutores] = useState([]);
     const [loadingForm, setLoadingForm] = useState(false);
+    const [roles, setRoles] = useState([]);
+    const [carreras, setCarreras] = useState([]);
     const [serverError, setServerError] = useState({});
 
     const handleSubmit = async data => {
         try {
             setLoading(true);
-            const response = await post("/libros", data);
+            const response = await post("/usuarios", data);
             if (response.status === 200) {
                 window.location.reload();
             }
         } catch (err) {
-            console.error(err);
+            console.log(err);
             setServerError(err);
         } finally {
             setLoading(false);
@@ -37,10 +37,10 @@ export const FormLibro = ({ show, handleShow }) => {
         const getResources = async () => {
             try {
                 setLoadingForm(true);
-                const autoresData = await getAutores();
-                const categoriasData = await getCategorias();
-                setAutores(autoresData);
-                setCategorias(categoriasData);
+                const rolesData = await getRoles();
+                const carrerasData = await getCarreras();
+                setRoles(rolesData);
+                setCarreras(carrerasData);
             } catch (err) {
                 console.error(err);
                 setServerError(err);
@@ -61,12 +61,15 @@ export const FormLibro = ({ show, handleShow }) => {
             >
                 <Formik
                     initialValues={{
-                        titulo: "",
-                        descripcion: "",
-                        categoria: undefined,
-                        autor: undefined
+                        cedula: undefined,
+                        nombres: "",
+                        apellidos: "",
+                        email: "",
+                        password: "",
+                        rol: undefined,
+                        carrera: undefined
                     }}
-                    validationSchema={libroSchema}
+                    validationSchema={userSchema}
                     onSubmit={values => handleSubmit(values)}
                 >
                     {({
@@ -79,7 +82,7 @@ export const FormLibro = ({ show, handleShow }) => {
                         <Form>
                             <Modal.Dialog scrollable size="lg">
                                 <Modal.Header closeButton>
-                                    <Modal.Title>Nuevo Libro</Modal.Title>
+                                    <Modal.Title>Nueva Copia</Modal.Title>
                                 </Modal.Header>
                                 {loadingForm ? (
                                     <Spinner
@@ -88,9 +91,6 @@ export const FormLibro = ({ show, handleShow }) => {
                                         size="lg"
                                         role="status"
                                         aria-hidden="true"
-                                        style={{
-                                            marginRight: "5px"
-                                        }}
                                     />
                                 ) : (
                                     <Modal.Body>
@@ -102,108 +102,136 @@ export const FormLibro = ({ show, handleShow }) => {
                                         )}
 
                                         <React.Fragment>
-                                            <Form.Group controlId="formTitulo">
-                                                <Form.Label>Título:</Form.Label>
+                                            <Form.Group controlId="formCedula">
+                                                <Form.Label>Cédula:</Form.Label>
                                                 <Form.Control
-                                                    type="text"
-                                                    name="titulo"
+                                                    type="number"
+                                                    name="cedula"
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
                                                     className={
-                                                        touched.titulo &&
-                                                        errors.titulo
+                                                        touched.cedula &&
+                                                        errors.cedula
                                                             ? "error"
                                                             : null
                                                     }
                                                 />
-                                                {errors.titulo && (
+                                                {errors.cedula && (
                                                     <ErrorInput
-                                                        data={errors.titulo}
-                                                    />
-                                                )}
-                                            </Form.Group>
-                                        </React.Fragment>
-                                        <React.Fragment>
-                                            <Form.Group controlId="formDescripcion">
-                                                <Form.Label>
-                                                    Descripción:
-                                                </Form.Label>
-                                                <Form.Control
-                                                    type="text"
-                                                    name="descripcion"
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
-                                                    className={
-                                                        touched.descripcion &&
-                                                        errors.descripcion
-                                                            ? "error"
-                                                            : null
-                                                    }
-                                                />
-                                                {errors.descripcion && (
-                                                    <ErrorInput
-                                                        data={
-                                                            errors.descripcion
-                                                        }
-                                                    />
-                                                )}
-                                            </Form.Group>
-                                        </React.Fragment>
-                                        <React.Fragment>
-                                            <Form.Group controlId="formAutor">
-                                                <Form.Label>Autor:</Form.Label>
-                                                <Form.Control
-                                                    as="select"
-                                                    name="autor"
-                                                    onChange={handleChange}
-                                                    className={
-                                                        touched.autor &&
-                                                        errors.autor
-                                                            ? "error"
-                                                            : null
-                                                    }
-                                                >
-                                                    <option
-                                                        hidden
-                                                        disabled
-                                                        selected
-                                                        value
-                                                    >
-                                                        {
-                                                            "-- Selecciona un autor --"
-                                                        }
-                                                    </option>
-                                                    {autores.map(autor => {
-                                                        return (
-                                                            <option
-                                                                value={autor.id}
-                                                                key={autor.id}
-                                                            >
-                                                                {autor.nombre}
-                                                            </option>
-                                                        );
-                                                    })}
-                                                </Form.Control>
-                                                {errors.autor && (
-                                                    <ErrorInput
-                                                        data={errors.autor}
+                                                        data={errors.cedula}
                                                     />
                                                 )}
                                             </Form.Group>
                                         </React.Fragment>
 
                                         <React.Fragment>
-                                            <Form.Group controlId="formCategoria">
+                                            <Form.Group controlId="formNombres">
                                                 <Form.Label>
-                                                    Categoría:
+                                                    Nombres:
                                                 </Form.Label>
                                                 <Form.Control
+                                                    type="text"
+                                                    name="nombres"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    className={
+                                                        touched.nombres &&
+                                                        errors.nombres
+                                                            ? "error"
+                                                            : null
+                                                    }
+                                                />
+                                                {errors.nombres && (
+                                                    <ErrorInput
+                                                        data={errors.nombres}
+                                                    />
+                                                )}
+                                            </Form.Group>
+                                        </React.Fragment>
+
+                                        <React.Fragment>
+                                            <Form.Group controlId="formApellidos">
+                                                <Form.Label>
+                                                    Apellidos:
+                                                </Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    name="apellidos"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    className={
+                                                        touched.apellidos &&
+                                                        errors.apellidos
+                                                            ? "error"
+                                                            : null
+                                                    }
+                                                />
+                                                {errors.apellidos && (
+                                                    <ErrorInput
+                                                        data={errors.apellidos}
+                                                    />
+                                                )}
+                                            </Form.Group>
+                                        </React.Fragment>
+
+                                        <React.Fragment>
+                                            <Form.Group controlId="formEmail">
+                                                <Form.Label>Email:</Form.Label>
+                                                <Form.Control
+                                                    type="email"
+                                                    name="email"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    className={
+                                                        touched.email &&
+                                                        errors.email
+                                                            ? "error"
+                                                            : null
+                                                    }
+                                                />
+                                                {errors.email && (
+                                                    <ErrorInput
+                                                        data={errors.email}
+                                                    />
+                                                )}
+                                            </Form.Group>
+                                        </React.Fragment>
+
+                                        <React.Fragment>
+                                            <Form.Group controlId="formPassword">
+                                                <Form.Label>
+                                                    Contraseña:
+                                                </Form.Label>
+                                                <Form.Control
+                                                    type="password"
+                                                    name="password"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    className={
+                                                        touched.password &&
+                                                        errors.password
+                                                            ? "error"
+                                                            : null
+                                                    }
+                                                />
+                                                {errors.password && (
+                                                    <ErrorInput
+                                                        data={errors.password}
+                                                    />
+                                                )}
+                                            </Form.Group>
+                                        </React.Fragment>
+
+                                        <React.Fragment>
+                                            <Form.Group controlId="formRol">
+                                                <Form.Label>Rol:</Form.Label>
+                                                <Form.Control
                                                     as="select"
-                                                    name="categoria"
+                                                    name="rol"
                                                     onChange={handleChange}
                                                     className={
-                                                        touched.categoria &&
-                                                        errors.categoria
+                                                        touched.rol &&
+                                                        errors.rol
                                                             ? "error"
                                                             : null
                                                     }
@@ -215,31 +243,72 @@ export const FormLibro = ({ show, handleShow }) => {
                                                         value
                                                     >
                                                         {
-                                                            "-- Selecciona una categoría --"
+                                                            "-- Selecciona el rol del usuario --"
                                                         }
                                                     </option>
-                                                    {categorias.map(
-                                                        categoria => {
-                                                            return (
-                                                                <option
-                                                                    value={
-                                                                        categoria.id
-                                                                    }
-                                                                    key={
-                                                                        categoria.id
-                                                                    }
-                                                                >
-                                                                    {
-                                                                        categoria.categoria
-                                                                    }
-                                                                </option>
-                                                            );
-                                                        }
-                                                    )}
+                                                    {roles.map(libro => {
+                                                        return (
+                                                            <option
+                                                                value={rol.id}
+                                                                key={rol.id}
+                                                            >
+                                                                {rol.rol}
+                                                            </option>
+                                                        );
+                                                    })}
                                                 </Form.Control>
-                                                {errors.categoria && (
+                                                {errors.rol && (
                                                     <ErrorInput
-                                                        data={errors.categoria}
+                                                        data={errors.rol}
+                                                    />
+                                                )}
+                                            </Form.Group>
+                                        </React.Fragment>
+
+                                        <React.Fragment>
+                                            <Form.Group controlId="formCarrera">
+                                                <Form.Label>
+                                                    Carrera:
+                                                </Form.Label>
+                                                <Form.Control
+                                                    as="select"
+                                                    name="carrera"
+                                                    onChange={handleChange}
+                                                    className={
+                                                        touched.carrera &&
+                                                        errors.carrera
+                                                            ? "error"
+                                                            : null
+                                                    }
+                                                >
+                                                    <option
+                                                        hidden
+                                                        disabled
+                                                        selected
+                                                        value
+                                                    >
+                                                        {
+                                                            "-- Selecciona la carrera del usuario --"
+                                                        }
+                                                    </option>
+                                                    {carreras.map(carrera => {
+                                                        return (
+                                                            <option
+                                                                value={
+                                                                    carrera.id
+                                                                }
+                                                                key={carrera.id}
+                                                            >
+                                                                {
+                                                                    carrera.carrera
+                                                                }
+                                                            </option>
+                                                        );
+                                                    })}
+                                                </Form.Control>
+                                                {errors.carrera && (
+                                                    <ErrorInput
+                                                        data={errors.carrera}
                                                     />
                                                 )}
                                             </Form.Group>

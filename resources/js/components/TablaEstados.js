@@ -5,11 +5,18 @@ import MaterialTable from "material-table";
 import { localization } from "../utils/traduccion";
 import { columnasEstados } from "../utils/columnas";
 import { getEstados } from "../services/biblioteca";
+import { FormEstado } from "./forms";
 
 export const TablaEstados = () => {
     const [estados, setEstados] = useState([]);
+    const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+
+    const handleShow = () => {
+        if (show) setShow(false);
+        else setShow(true);
+    };
 
     useEffect(() => {
         const fetchEstados = async () => {
@@ -35,7 +42,16 @@ export const TablaEstados = () => {
                 data={estados}
                 title="Estados"
                 isLoading={loading}
+                actions={[
+                    {
+                        icon: "add",
+                        tooltip: "Agregar estado",
+                        isFreeAction: true,
+                        onClick: event => setShow(true)
+                    }
+                ]}
             />
+            <FormEstado show={show} handleShow={handleShow} />
         </div>
     );
 };

@@ -1,15 +1,21 @@
 import { FormAutor } from "./FormAutor";
 import { FormLibro } from "./FormLibro";
-import { FormCarrera } from "./FormCarrera";
+import { FormCopia } from "./FormCopia";
 import { FormCategoria } from "./FormCategoria";
-import { FormRol } from "./FormRol";
 import { FormEstado } from "./FormEstado";
+import { FormPrestamo } from "./FormPrestamo";
+import { FormUser } from "./FormUser";
+import { FormRol } from "./FormRol";
+import { FormCarrera } from "./FormCarrera";
 
 export {
     FormAutor,
     FormLibro,
-    FormCarrera,
+    FormCopia,
     FormCategoria,
+    FormEstado,
+    FormPrestamo,
+    FormUser,
     FormRol,
-    FormEstado
+    FormCarrera
 };

@@ -5,11 +5,18 @@ import MaterialTable from "material-table";
 import { getCategorias } from "../services/biblioteca";
 import { localization } from "../utils/traduccion";
 import { columnasCategorias } from "../utils/columnas";
+import { FormCategoria } from "./forms";
 
 export const TablaCategorias = () => {
     const [categorias, setCategorias] = useState([]);
+    const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+
+    const handleShow = () => {
+        if (show) setShow(false);
+        else setShow(true);
+    };
 
     useEffect(() => {
         const fetchCategorias = async () => {
@@ -35,7 +42,16 @@ export const TablaCategorias = () => {
                 data={categorias}
                 title="Categorias"
                 isLoading={loading}
+                actions={[
+                    {
+                        icon: "add",
+                        tooltip: "Agregar categoría",
+                        isFreeAction: true,
+                        onClick: event => setShow(true)
+                    }
+                ]}
             />
+            <FormCategoria show={show} handleShow={handleShow} />
         </div>
     );
 };
