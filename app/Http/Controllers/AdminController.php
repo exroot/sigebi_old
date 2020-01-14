@@ -119,13 +119,14 @@ class AdminController extends Controller
         return response()->json($usuariosData);
     }
 
-    public function postUsuario(Request $request) {
+    // 'password' => 'required|min:8|regex:/^(?=\S*[a-z])(?=\S*[!@#$&*])(?=\S*[A-Z])(?=\S*[\d])\S*$/',
+    public function postUsuario(Request $request) { 
         $request->validate([
-            'cedula' => 'required|integer|unique:usuarios,cedula',
-            'nombres' => 'required|string|min:3|max:100',
-            'apellidos' => 'required|string|min:3|max:100',
-            'email' => 'required|email|unique:usuarios,email,',
-            'password' => 'required|min:8|regex:/^(?=\S*[a-z])(?=\S*[!@#$&*])(?=\S*[A-Z])(?=\S*[\d])\S*$/',
+            'cedula' => 'required|integer|unique:usuarios',
+            'nombres' => 'required|min:3|max:100',
+            'apellidos' => 'required|min:3|max:100',
+            'email' => 'required|email|unique:usuarios',
+            'password' => 'required|min:8',
             'rol' => 'required|integer|min:1',
             'carrera' => 'required|integer|min:1',
         ]);
