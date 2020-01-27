@@ -58,11 +58,11 @@ class AutorController extends Controller
         $autores = Autor::all();
         $autoresData = $autores->map(function($autor) {
             $numeroDeLibros = count($autor->libros()->get());
-            return collect([
+            return [
                 'id' => $autor->id,
                 'nombre' => $autor->nombre,
                 'libros' => $numeroDeLibros
-            ]);
+            ];
         });
         return response()->json($autoresData);
     }
@@ -75,6 +75,6 @@ class AutorController extends Controller
             'nombre' => $request->input('nombre')
         ]);
         $nuevoAutor->save();
-        return response('Sucess', 200);
+        return response('Success', 200);
     }
 }

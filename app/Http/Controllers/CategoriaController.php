@@ -54,4 +54,15 @@ class CategoriaController extends Controller
         $categorias = Categoria::all();
         return response()->json($categorias);
     }
+
+    public function postCategorias(Request $request) {
+        $request->validate([
+            'categoria' => 'required|string|min:4'
+        ]);
+        $nuevaCategoria = new Categoria([
+            'categoria' => $request->input('categoria')
+        ]);
+        $nuevaCategoria->save();
+        return response('Success', 200);
+    }
 }

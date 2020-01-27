@@ -58,8 +58,8 @@ class CopiaController extends Controller
         $copia = Copia::findOrFail($copiaId);
         $request->validate([
             'cota' => 'required|min:5|max:255',
-            'estado' => 'required|integer',
-            'libro' => 'required|integer',
+            'estado' => 'required|integer|min:1',
+            'libro' => 'required|integer|min:1',
         ]);
         $copia->update([
             'cota' => $request->input('cota'),
@@ -72,20 +72,32 @@ class CopiaController extends Controller
     // RECURSO PARA API
     public function getCopias() {
         $copias = Copia::all();
-        $copiasData = $copias->map(function($copia) {
-            $libro = $copia->libro()->first();
-            // Eusebio Gleason == estado 1 == disponible
-            $disponibilidad = $copia->estado()->first()->estado == 'Eusebio Gleason' ? true : false;
-            return collect([
+        $copiasConTitulos = $copias->map(function($copia){
+            return [
                 'id' => $copia->id,
                 'cota' => $copia->cota,
-                'libro' => collect([
-                    'id' => $libro->id,
-                    'titulo' => $libro->titulo
-                ]),
-                'estado' => $disponibilidad
-            ]);
+                'libro' => [
+                    'id' => $copia->libro_id,
+                    'titulo' => $copia->libro()->first()->titulo
+                ],
+                'estado_id' => $copia->estado_id 
+            ];
         });
-        return response()->json($copiasData);
+        return response()->json($copiasConTitulos, 200);
+    }
+
+    public function postCopias(Request $request) {
+        $request->validate([
+            'cota' => 'required|min:5|max:255',
+            'estado' => 'required|integer|min:1',
+            'libro' => 'required|integer|min:1', 
+        ]);
+        $nuevaCopia = new Copia([
+            'cota' => $request->input('cota'),
+            'estado_id' => $request->input('estado'),
+            'libro_id' => $request->input('libro')
+        ]);
+        $nuevaCopia->save();
+        return response('Success', 200); 
     }
 }

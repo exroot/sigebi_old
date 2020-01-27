@@ -91,17 +91,17 @@ class LibroController extends Controller
             $copiasDisponibles = $copiasDelLibro->filter(function($copia) {
                 return $copia->estado_id == 3;
             });
-            return collect([
+            return [
                 'id' => $libro->id,
                 'titulo' => $libro->titulo,
                 'descripcion' => $libro->descripcion,
                 'categoria_id' => $libro->categoria_id,
-                'autor' => collect([
+                'autor' => [
                     'id' => $autorDelLibro->id,
                     'nombre' => $autorDelLibro->nombre
-                ]),
+                ],
                 'disponible' => count($copiasDisponibles) >= 1 ? true : false,
-            ]);
+            ];
         });
         return response()->json($librosConAutores);
     }
@@ -120,6 +120,6 @@ class LibroController extends Controller
             'autor_id' => $request->input('autor')
         ]);
         $nuevoLibro->save();
-        return response('Sucess', 200);
+        return response('Success', 200);
     }
 }
